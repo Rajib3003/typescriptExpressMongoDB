@@ -1,0 +1,79 @@
+import  express, { Request, Response }  from 'express';
+import { Borrow } from '../models/borrow.models';
+import { Book } from '../models/books.models';
+import e from 'express';
+
+export const borrowRouters = express.Router();
+
+borrowRouters.post("/create", async (req: Request, res: Response)=> {
+    try {
+        // const body = req.body;       
+        // const borrow = await(await Borrow.create(body)).populate('book');
+
+        const { book:bookId, quantity, dueDate } = req.body;
+        const updateBook = await Book.borrowCopies(bookId, quantity);
+        const borrowRecord = await Borrow.create({
+            book: bookId,
+            quantity,
+            dueDate
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "Borrow created successfully",
+            data: {
+                borrow: borrowRecord,
+                book: updateBook
+            }
+        });
+    } catch (error:any) {
+        console.log(error );
+        return res.status(400).json({
+            message: error.message,
+            success: false,
+            error: {
+                name: error.name,
+                message: error.message,
+                stack: error.stack, 
+            } 
+        });
+    }
+})
+borrowRouters.get("/summary", async (req: Request, res: Response) => {
+    try {
+        const borrowSummary = await Borrow.aggregate([  
+            {
+                $lookup: {
+                    from: "books", 
+                    localField: "book",
+                    foreignField: "_id",
+                    as: "bookDetails"
+                }
+            },
+            {
+                $unwind: "$bookDetails"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    book: {
+                        title: "$bookDetails.title",
+                        isbn: "$bookDetails.isbn",
+                    },
+                    totalBorrowed: "$quantity",
+                }
+            }
+        ]);
+        res.status(200).json({
+            success: true,
+            message: "Borrowed books summary retrieved successfully",
+            data: borrowSummary,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error',
+            success: false,
+            error
+        });
+    }
+});
