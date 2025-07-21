@@ -42,10 +42,16 @@ borrowRouters.post("/create", async (req: Request, res: Response)=> {
 borrowRouters.get("/summary", async (req: Request, res: Response) => {
     try {
         const borrowSummary = await Borrow.aggregate([  
+             {
+                $group: {
+                _id: "$book", 
+                totalQuantity: { $sum: "$quantity" } 
+                }
+            },
             {
                 $lookup: {
                     from: "books", 
-                    localField: "book",
+                    localField: "_id",
                     foreignField: "_id",
                     as: "bookDetails"
                 }
@@ -60,7 +66,7 @@ borrowRouters.get("/summary", async (req: Request, res: Response) => {
                         title: "$bookDetails.title",
                         isbn: "$bookDetails.isbn",
                     },
-                    totalBorrowed: "$quantity",
+                    totalQuantity: 1,
                 }
             }
         ]);
