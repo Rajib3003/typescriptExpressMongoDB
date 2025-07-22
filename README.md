@@ -110,6 +110,10 @@ Books
 # github link
 - https://github.com/Rajib3003/typescriptExpressMongoDB#
 
+# video link
+
+-https://drive.google.com/drive/folders/15HJZn20g3PF8uNAMVZViSqBYtbu_sQP-
+
 
 
 
