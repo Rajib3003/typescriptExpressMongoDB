@@ -112,7 +112,7 @@ Books
 
 # video link
 
--https://drive.google.com/drive/folders/15HJZn20g3PF8uNAMVZViSqBYtbu_sQP-
+https://drive.google.com/file/d/1VMMzLT--XdMy8tFOqCy1_xCRv-98hStT/view?usp=drive_link
 
 
 
