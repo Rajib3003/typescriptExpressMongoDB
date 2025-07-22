@@ -5,9 +5,11 @@ This is a simple library management (API) system. Built using  Express, TypeScri
 # Installation
 
 - Install fnm
+
     winget install Schniz.fnm
 
 - Use Node.js version 22
+
     fnm install 22
 
 - Initialize project
