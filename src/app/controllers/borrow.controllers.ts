@@ -5,11 +5,8 @@ import e from 'express';
 
 export const borrowRouters = express.Router();
 
-borrowRouters.post("/create", async (req: Request, res: Response)=> {
-    try {
-        // const body = req.body;       
-        // const borrow = await(await Borrow.create(body)).populate('book');
-
+borrowRouters.post("/", async (req: Request, res: Response)=> {
+    try {  
         const { book:bookId, quantity, dueDate } = req.body;
         const updateBook = await Book.borrowCopies(bookId, quantity);
         const borrowRecord = await Borrow.create({
@@ -39,7 +36,7 @@ borrowRouters.post("/create", async (req: Request, res: Response)=> {
         });
     }
 })
-borrowRouters.get("/summary", async (req: Request, res: Response) => {
+borrowRouters.get("/", async (req: Request, res: Response) => {
     try {
         const borrowSummary = await Borrow.aggregate([  
              {

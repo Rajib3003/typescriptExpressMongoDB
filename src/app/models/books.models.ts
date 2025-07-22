@@ -58,6 +58,18 @@ bookSchema.statics.borrowCopies = async function (bookId: string, quantity: numb
 } 
 
 
+bookSchema.pre('findOneAndUpdate', function (next) {
+    console.log('Book is being updated...');
+    next();
+});
+
+bookSchema.pre('save', function (next) {
+    console.log('Book is being saved...');
+    next();
+});
+
+
+
 
 
 export const Book = model<IBook, IBookModel>('Book', bookSchema);

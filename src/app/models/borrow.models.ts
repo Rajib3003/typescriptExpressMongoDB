@@ -15,7 +15,8 @@ const borrowSchema = new Schema<IBorrow>(
         },
         dueDate: {
             type: Date,
-            default: Date.now,            
+            // default: Date.now, 
+            required: true,                      
         }
     },
     {
@@ -23,5 +24,10 @@ const borrowSchema = new Schema<IBorrow>(
         versionKey: false,
     }
 )
+
+borrowSchema.post('save', function (doc,next) {
+    console.log(`Book borrowed: ${doc.book}, Quantity: ${doc.quantity}`);
+    next();
+});
 
 export const Borrow = model<IBorrow>('Borrow', borrowSchema);
