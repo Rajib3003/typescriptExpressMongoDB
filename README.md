@@ -4,21 +4,21 @@ This is a simple library management (API) system. Built using  Express, TypeScri
 
 # Installation
 
-1. Install fnm
+- Install fnm
     winget install Schniz.fnm
 
-2. Use Node.js version 22
+- Use Node.js version 22
     fnm install 22
 
-3. Initialize project
+- Initialize project
     npm init -y
 
-4. Install TypeScript and initialize config
+- Install TypeScript and initialize config
     npm i -D typescript
     npm i -g typescript
     tsc --init
 
-5. Install dependencies
+- Install dependencies
     npm i express
     npm i mongodb
     npm i mongoose
@@ -27,9 +27,9 @@ This is a simple library management (API) system. Built using  Express, TypeScri
     npm i bcrypt
 
 
-6. Install dev dependencies
-    npm i --save-dev @types/express @types/validator  @types/bcrypt
-    npm i ts-node-dev
+- Install dev dependencies
+    -npm i --save-dev @types/express @types/validator  @types/bcrypt
+    -npm i ts-node-dev
 
 # API Endpoints
 
@@ -68,3 +68,19 @@ Books
   "copies": 5,
   "available": true
 }
+
+# vercel 
+
+    npm i -g vercel
+    vercel -v
+    vercel login
+    vercel --prod
+
+    (for me)
+    Inspect: https://vercel.com/mohammad-rajib-bhuiyans-projects/typescript-express-mongo-db/Fo67Aarhy5kecCN8KSzmWrDuE5Zi
+    (ctrl + click)
+
+# vercel Link 
+    https://typescript-express-mongo-db.vercel.app/
+
+
