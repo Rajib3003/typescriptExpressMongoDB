@@ -10,7 +10,7 @@ const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: ['https://b5a4-react-redux.vercel.app/']
+    origin: ['https://b5a4-react-redux.vercel.app/', 'http://localhost:5173']
 }));
 app.use('/api/books', books_controllers_1.booksRouters);
 app.use('/api/borrow', borrow_controllers_1.borrowRouters);

@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ['https://b5a4-react-redux.vercel.app/']
+    origin: ['https://b5a4-react-redux.vercel.app/','http://localhost:5173']
    })
 );
 
