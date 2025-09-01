@@ -9,8 +9,24 @@ const borrow_controllers_1 = require("./app/controllers/borrow.controllers");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+// এখানে বসাও
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://b5a4-react-redux.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
 app.use((0, cors_1.default)({
-    origin: ['https://b5a4-react-redux.vercel.app/', 'http://localhost:5173']
+    origin: [
+        'https://b5a4-react-redux.vercel.app', // ✅ এখানে শেষের স্ল্যাশ তুলে দাও
+        'http://localhost:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    credentials: true
 }));
 app.use('/api/books', books_controllers_1.booksRouters);
 app.use('/api/borrow', borrow_controllers_1.borrowRouters);
