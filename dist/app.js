@@ -20,11 +20,20 @@ app.use((req, res, next) => {
     }
     next();
 });
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://b5a4-react-redux.vercel.app"
+];
 app.use((0, cors_1.default)({
-    origin: [
-        'https://b5a4-react-redux.vercel.app', // ✅ এখানে শেষের স্ল্যাশ তুলে দাও
-        'http://localhost:5173'
-    ],
+    origin: (origin, callback) => {
+        // Postman বা server-side request এর ক্ষেত্রে origin null হতে পারে
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
