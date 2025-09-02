@@ -38,6 +38,8 @@ app.use(
   })
 );
 
+app.options("*", cors());
+
 app.use('/api/books', booksRouters);
 app.use('/api/borrow', borrowRouters);
 

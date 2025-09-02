@@ -37,6 +37,7 @@ app.use((0, cors_1.default)({
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
+app.options("*", (0, cors_1.default)());
 app.use('/api/books', books_controllers_1.booksRouters);
 app.use('/api/borrow', borrow_controllers_1.borrowRouters);
 app.get("/", (req, res) => {
