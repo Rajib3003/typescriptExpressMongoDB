@@ -43,7 +43,7 @@ exports.booksRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
         filter.genre = filterGenre;
     }
     const sortOrder = req.query.sort === 'desc' ? -1 : 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 100;
     const books = yield books_models_1.Book.find(filter).sort({ title: sortOrder }).limit(limit);
     res.status(200).json({
         success: true,
