@@ -30,7 +30,8 @@ booksRouters.get("/", async (req: Request, res: Response) => {
     if (filterGenre) {
         filter.genre = filterGenre;
     }
-    const sortOrder = req.query.sort === 'desc' ? -1 : 1;
+    // const sortOrder = req.query.sort === 'desc' ? -1 : 1;
+    const sortOrder = -1 ;
     const limit = parseInt(req.query.limit as string) || 100;
 
     const books = await Book.find(filter).sort({ title: sortOrder }).limit(limit);
