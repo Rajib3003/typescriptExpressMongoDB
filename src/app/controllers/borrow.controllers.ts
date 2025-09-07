@@ -39,12 +39,11 @@ borrowRouters.post("/", async (req: Request, res: Response)=> {
 borrowRouters.get("/", async (req: Request, res: Response) => {
     try {
         const borrowSummary = await Borrow.aggregate([  
-            { $sort: { createdAt: -1 } },
              {
                 $group: {
                 _id: "$book", 
                 totalQuantity: { $sum: "$quantity" },
-                lastBorrowedAt: {$first: "$createdAt" }
+                lastCreated: { $max: "$createdAt" } 
                 }
             },
             {
@@ -66,10 +65,27 @@ borrowRouters.get("/", async (req: Request, res: Response) => {
                         isbn: "$bookDetails.isbn",
                     },
                     totalQuantity: 1,
-                    lastBorrowedAt: 1
+                     lastCreated: 1
                 }
             },
-            // { $sort: { lastBorrowedAt: -1 } }
+            {
+                $sort: { lastCreated: -1 } 
+            },
+            {
+                $setWindowFields: {
+                    sortBy: { lastCreated: -1 },
+                    output: {
+                        serial: { $documentNumber: {} } 
+                    }
+                }
+            },
+            {
+                $project: {
+                    book: 1,
+                    totalQuantity: 1,
+                    serial: 1
+                }
+            }
         ]);
         res.status(200).json({
             success: true,
