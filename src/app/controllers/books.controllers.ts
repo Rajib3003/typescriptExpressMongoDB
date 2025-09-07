@@ -34,7 +34,7 @@ booksRouters.get("/", async (req: Request, res: Response) => {
     const sortOrder = -1 ;
     const limit = parseInt(req.query.limit as string) || 100;
 
-    const books = await Book.find(filter).sort({ title: sortOrder }).limit(limit);
+    const books = await Book.find(filter).sort({ createdAt: sortOrder }).limit(limit);
     res.status(200).json({
         success: true,
         message: "Books fetched successfully",
