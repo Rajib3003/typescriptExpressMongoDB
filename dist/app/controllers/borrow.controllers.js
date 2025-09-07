@@ -51,11 +51,12 @@ exports.borrowRouters.post("/", (req, res) => __awaiter(void 0, void 0, void 0, 
 exports.borrowRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const borrowSummary = yield borrow_models_1.Borrow.aggregate([
+            { $sort: { createdAt: -1 } },
             {
                 $group: {
                     _id: "$book",
                     totalQuantity: { $sum: "$quantity" },
-                    lastBorrowedAt: { $max: "$createdAt" }
+                    lastBorrowedAt: { $first: "$createdAt" }
                 }
             },
             {

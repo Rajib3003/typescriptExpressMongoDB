@@ -39,11 +39,12 @@ borrowRouters.post("/", async (req: Request, res: Response)=> {
 borrowRouters.get("/", async (req: Request, res: Response) => {
     try {
         const borrowSummary = await Borrow.aggregate([  
+            { $sort: { createdAt: -1 } },
              {
                 $group: {
                 _id: "$book", 
                 totalQuantity: { $sum: "$quantity" },
-                lastBorrowedAt: { $max: "$createdAt" }
+                lastBorrowedAt: {$first: "$createdAt" }
                 }
             },
             {
