@@ -42,7 +42,8 @@ borrowRouters.get("/", async (req: Request, res: Response) => {
              {
                 $group: {
                 _id: "$book", 
-                totalQuantity: { $sum: "$quantity" } 
+                totalQuantity: { $sum: "$quantity" },
+                lastBorrowedAt: { $max: "$createdAt" }
                 }
             },
             {
@@ -64,8 +65,10 @@ borrowRouters.get("/", async (req: Request, res: Response) => {
                         isbn: "$bookDetails.isbn",
                     },
                     totalQuantity: 1,
+                    lastBorrowedAt: 1
                 }
-            }
+            },
+            { $sort: { lastBorrowedAt: -1 } }
         ]);
         res.status(200).json({
             success: true,
