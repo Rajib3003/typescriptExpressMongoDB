@@ -69,7 +69,7 @@ borrowRouters.get("/", async (req: Request, res: Response) => {
                     lastBorrowedAt: 1
                 }
             },
-            { $sort: { lastBorrowedAt: -1 } }
+            // { $sort: { lastBorrowedAt: -1 } }
         ]);
         res.status(200).json({
             success: true,

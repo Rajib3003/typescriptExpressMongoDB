@@ -81,7 +81,7 @@ exports.borrowRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, f
                     lastBorrowedAt: 1
                 }
             },
-            { $sort: { lastBorrowedAt: -1 } }
+            // { $sort: { lastBorrowedAt: -1 } }
         ]);
         res.status(200).json({
             success: true,
