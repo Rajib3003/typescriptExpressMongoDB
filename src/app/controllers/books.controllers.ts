@@ -9,6 +9,7 @@ booksRouters.post("/", async (req:Request, res: Response) => {
     try {
         const body = req.body;
         const book = await Book.create(body);
+        
         res.status(201).json({
         success: true,
         message: "Book created successfully",

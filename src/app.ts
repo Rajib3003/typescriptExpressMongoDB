@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import { booksRouters } from "./app/controllers/books.controllers";
 import { borrowRouters } from './app/controllers/borrow.controllers';
 import cors from 'cors';
+import { noticeRouters } from './app/controllers/notice.controllers';
 
 const app: Application = express();
 
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/api/books', booksRouters);
 app.use('/api/borrow', borrowRouters);
+app.use('/api/notice', noticeRouters);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to the Express server start!!!!");
