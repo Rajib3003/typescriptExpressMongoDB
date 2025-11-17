@@ -80,13 +80,9 @@ exports.noticeRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 // GET single notice
 exports.noticeRouters.get("/:noticeId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Requested ID:=============");
     try {
         const noticeId = req.params.noticeId;
-        console.log("Requested ID:===========", noticeId);
         const result = yield notice_models_1.Notice.findById(noticeId);
-        console.log("Requested ID:", result);
-        console.log("check", result);
         if (!result) {
             return res.status(404).json({ message: "Ami dekhte chai kon error" });
         }

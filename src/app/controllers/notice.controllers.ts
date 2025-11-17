@@ -74,14 +74,10 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
 
 
 // GET single notice
-noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
-  console.log("Requested ID:=============",);
+noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {  
   try {
-    const noticeId = req.params.noticeId;
-    console.log("Requested ID:===========", noticeId);
-    const result = await Notice.findById(noticeId);   
-    console.log("Requested ID:", result);
-    console.log("check",result) 
+    const noticeId = req.params.noticeId;    
+    const result = await Notice.findById(noticeId);        
     if (!result) {
       return res.status(404).json({ message: "Ami dekhte chai kon error" });
     }
