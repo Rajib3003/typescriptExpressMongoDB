@@ -52,7 +52,7 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
     const limit = parseInt(req.query.limit as string) || 100;
 
     const notices = await Notice.find(filter)
-      .sort({ date: sortOrder }) 
+      .sort({ updatedAt: sortOrder }) 
       .limit(limit);
 
     const totalNotices = await Notice.countDocuments(filter);
