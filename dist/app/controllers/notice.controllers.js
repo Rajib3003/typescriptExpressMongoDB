@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -67,21 +78,23 @@ exports.noticeRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
 }));
-/**
- * Get single Notice by ID
- */
+// GET single notice
 exports.noticeRouters.get("/:noticeId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("Requested ID:=============");
     try {
-        const noticeId = yield notice_models_1.Notice.findById(req.params.id);
-        if (!noticeId) {
-            return res.status(404).json({ message: "Notice not found" });
+        const noticeId = req.params.noticeId;
+        console.log("Requested ID:===========", noticeId);
+        const result = yield notice_models_1.Notice.findById(noticeId);
+        console.log("Requested ID:", result);
+        console.log("check", result);
+        if (!result) {
+            return res.status(404).json({ message: "Ami dekhte chai kon error" });
         }
         res.status(200).json({
             success: true,
             message: "Single Notice fetched successfully",
-            data: noticeId,
+            data: result,
         });
-        ;
     }
     catch (error) {
         res.status(500).json({ message: "Server error", error });
@@ -93,8 +106,21 @@ exports.noticeRouters.get("/:noticeId", (req, res) => __awaiter(void 0, void 0, 
 exports.noticeRouters.patch("/:noticeId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const noticeId = req.params.noticeId;
-        const body = req.body;
-        const updatedNotice = yield notice_models_1.Notice.findByIdAndUpdate(noticeId, body, {
+        // const body = req.body;
+        const _a = req.body, { title } = _a, restBody = __rest(_a, ["title"]);
+        if (title) {
+            const existingNotice = yield notice_models_1.Notice.findOne({
+                title: title,
+                _id: { $ne: noticeId },
+            });
+            if (existingNotice) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Title already exists. Please use a different title.",
+                });
+            }
+        }
+        const updatedNotice = yield notice_models_1.Notice.findByIdAndUpdate(noticeId, Object.assign({ title }, restBody), {
             new: true,
         });
         if (!updatedNotice) {
@@ -122,7 +148,8 @@ exports.noticeRouters.patch("/:noticeId", (req, res) => __awaiter(void 0, void 0
  */
 exports.noticeRouters.delete("/:noticeId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deletedNotice = yield notice_models_1.Notice.findByIdAndDelete(req.params.id);
+        const noticeId = req.params.noticeId; // ✅ correct param
+        const deletedNotice = yield notice_models_1.Notice.findByIdAndDelete(noticeId);
         if (!deletedNotice) {
             return res.status(404).json({ message: "Notice not found" });
         }
