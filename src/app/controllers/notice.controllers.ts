@@ -96,7 +96,8 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
 noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
   try {
     const noticeId = req.params.noticeId;
-    const result = await Notice.findById(noticeId);    
+    const result = await Notice.findById(noticeId);   
+    console.log("check",result) 
     if (!result) {
       return res.status(404).json({ message: "Notice not found" });
     }
