@@ -11,7 +11,8 @@ app.use(express.json());
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://b5a4-react-redux.vercel.app'
+  'https://b5a4-react-redux.vercel.app',
+  'https://wps.personalbd.com'
 ];
 
 app.use((req, res, next) => {
@@ -27,10 +28,29 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+
+
+// ✅ Allowed Domains
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://wps.personalbd.com"
+// ];
+
+// ✅ CORS Setup
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+  origin: (origin, callback) => {
+    // origin undefined mane Postman or server-side request
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked: origin not allowed"));
+    }
+  },
+  credentials: true
 }));
+
+
 
 app.use('/api/books', booksRouters);
 app.use('/api/borrow', borrowRouters);
