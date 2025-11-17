@@ -71,35 +71,19 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
 
 
 
-/**
- * Get single Notice by ID
- */
-// noticeRouters.get("/:Id", async (req: Request, res: Response) => {
-  
-//   try {
-//     const noticeId = req.params.Id;
-//     const result = await Notice.findById(noticeId);    
-//     if (!result) {
-//       return res.status(404).json({ message: "Notice not found" });
-//     }
-//     res.status(200).json({
-//         success: true,
-//         message: "Single Notice fetched successfully",
-//         data: result, 
-//     });;
-//   } catch (error) {
-//     res.status(500).json({ message: "Server error", error });
-//   }
-// });
+
 
 // GET single notice
 noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
+  console.log("Requested ID:=============",);
   try {
     const noticeId = req.params.noticeId;
+    console.log("Requested ID:===========", noticeId);
     const result = await Notice.findById(noticeId);   
+    console.log("Requested ID:", result);
     console.log("check",result) 
     if (!result) {
-      return res.status(404).json({ message: "Notice not found check" });
+      return res.status(404).json({ message: "Ami dekhte chai kon error" });
     }
     res.status(200).json({
       success: true,
