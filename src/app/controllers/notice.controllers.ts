@@ -74,7 +74,7 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
 /**
  * Get single Notice by ID
  */
-noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
+noticeRouters.get("/single/:noticeId", async (req: Request, res: Response) => {
   
   try {
     const noticeId = req.params.noticeId;
