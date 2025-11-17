@@ -64,9 +64,12 @@ exports.noticeRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, f
         const notices = yield notice_models_1.Notice.find(filter)
             .sort({ date: sortOrder })
             .limit(limit);
+        const totalNotices = yield notice_models_1.Notice.countDocuments(filter);
         res.status(200).json({
             success: true,
             message: "Notices fetched successfully",
+            total: totalNotices,
+            count: notices.length,
             data: notices,
         });
     }
@@ -84,7 +87,7 @@ exports.noticeRouters.get("/:noticeId", (req, res) => __awaiter(void 0, void 0, 
         const noticeId = req.params.noticeId;
         const result = yield notice_models_1.Notice.findById(noticeId);
         if (!result) {
-            return res.status(404).json({ message: "Ami dekhte chai kon error" });
+            return res.status(404).json({ message: "Notice not found" });
         }
         res.status(200).json({
             success: true,

@@ -55,9 +55,13 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
       .sort({ date: sortOrder }) 
       .limit(limit);
 
+    const totalNotices = await Notice.countDocuments(filter);
+
     res.status(200).json({
       success: true,
       message: "Notices fetched successfully",
+      total: totalNotices,   
+      count: notices.length, 
       data: notices,
     });
   } catch (error) {
@@ -79,7 +83,7 @@ noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
     const noticeId = req.params.noticeId;    
     const result = await Notice.findById(noticeId);        
     if (!result) {
-      return res.status(404).json({ message: "Ami dekhte chai kon error" });
+      return res.status(404).json({ message: "Notice not found" });
     }
     res.status(200).json({
       success: true,
