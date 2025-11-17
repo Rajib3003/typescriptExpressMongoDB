@@ -62,7 +62,7 @@ exports.noticeRouters.get("/", (req, res) => __awaiter(void 0, void 0, void 0, f
         const sortOrder = req.query.sort === "asc" ? 1 : -1;
         const limit = parseInt(req.query.limit) || 100;
         const notices = yield notice_models_1.Notice.find(filter)
-            .sort({ createdAt: sortOrder })
+            .sort({ updatedAt: sortOrder })
             .limit(limit);
         const totalNotices = yield notice_models_1.Notice.countDocuments(filter);
         res.status(200).json({
