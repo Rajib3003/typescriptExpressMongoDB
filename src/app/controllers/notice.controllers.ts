@@ -74,17 +74,18 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
 /**
  * Get single Notice by ID
  */
-noticeRouters.get("/:id", async (req: Request, res: Response) => {
+noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
   
   try {
-    const noticeId = await Notice.findById(req.params.id);    
-    if (!noticeId) {
+    const noticeId = req.params.noticeId;
+    const result = await Notice.findById(noticeId);    
+    if (!result) {
       return res.status(404).json({ message: "Notice not found" });
     }
     res.status(200).json({
         success: true,
         message: "Single Notice fetched successfully",
-        data: noticeId, 
+        data: result, 
     });;
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
