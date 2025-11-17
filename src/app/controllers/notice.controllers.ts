@@ -99,7 +99,7 @@ noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
     const result = await Notice.findById(noticeId);   
     console.log("check",result) 
     if (!result) {
-      return res.status(404).json({ message: "Notice not found" });
+      return res.status(404).json({ message: "Notice not found check" });
     }
     res.status(200).json({
       success: true,
