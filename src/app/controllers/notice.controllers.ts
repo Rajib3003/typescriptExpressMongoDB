@@ -74,9 +74,10 @@ noticeRouters.get("/", async (req: Request, res: Response) => {
 /**
  * Get single Notice by ID
  */
-noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
+noticeRouters.get("/:id", async (req: Request, res: Response) => {
+  
   try {
-    const noticeId = await Notice.findById(req.params.id);
+    const noticeId = await Notice.findById(req.params.id);    
     if (!noticeId) {
       return res.status(404).json({ message: "Notice not found" });
     }
@@ -96,9 +97,27 @@ noticeRouters.get("/:noticeId", async (req: Request, res: Response) => {
 noticeRouters.patch("/:noticeId", async (req: Request, res: Response) => {
   try {
     const noticeId = req.params.noticeId;
-    const body = req.body;
+    // const body = req.body;
 
-    const updatedNotice = await Notice.findByIdAndUpdate(noticeId, body, {
+
+    const { title, ...restBody } = req.body;
+
+    
+    if (title) {
+      const existingNotice = await Notice.findOne({
+        title: title,
+        _id: { $ne: noticeId },   
+      });
+
+      if (existingNotice) {
+        return res.status(400).json({
+          success: false,
+          message: "Title already exists. Please use a different title.",
+        });
+      }
+    }
+
+    const updatedNotice = await Notice.findByIdAndUpdate(noticeId,{ title, ...restBody }, {
       new: true,
     });
 
@@ -129,12 +148,17 @@ noticeRouters.patch("/:noticeId", async (req: Request, res: Response) => {
  */
 noticeRouters.delete("/:noticeId", async (req: Request, res: Response) => {
   try {
-    const deletedNotice = await Notice.findByIdAndDelete(req.params.id);
+    const noticeId = req.params.noticeId; // ✅ correct param
+
+    const deletedNotice = await Notice.findByIdAndDelete(noticeId);
+
     if (!deletedNotice) {
       return res.status(404).json({ message: "Notice not found" });
     }
+
     res.status(200).json({ message: "Notice deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 });
+
