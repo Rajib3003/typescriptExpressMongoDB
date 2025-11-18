@@ -34,6 +34,12 @@ exports.noticeRouters.post("/", (req, res) => __awaiter(void 0, void 0, void 0, 
         if (!title || !date) {
             return res.status(400).json({ message: "Title and date are required." });
         }
+        const existingNotice = yield notice_models_1.Notice.findOne({ title });
+        if (existingNotice) {
+            return res.status(400).json({
+                message: "This title already exists! Please use a different title.",
+            });
+        }
         const newNotice = new notice_models_1.Notice({ title, date, description, link, photo, });
         const savedNotice = yield newNotice.save();
         res.status(201).json({

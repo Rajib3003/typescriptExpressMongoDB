@@ -15,6 +15,14 @@ noticeRouters.post("/", async (req: Request, res: Response) => {
     if (!title || !date) {
       return res.status(400).json({ message: "Title and date are required." });
     }
+    
+    const existingNotice = await Notice.findOne({ title });
+    if (existingNotice) {
+      return res.status(400).json({
+        message: "This title already exists! Please use a different title.",
+      });
+    }
+
 
     const newNotice = new Notice({title, date, description, link, photo,});
 
